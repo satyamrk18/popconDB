@@ -3,7 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import Movie from "./models/movies.js";
+import {getAppMovies,searchById,health,saveAllMovies} from "./controller/Movies.js"
 //all configurations
 dotenv.config();
 const app = express();
@@ -20,69 +20,16 @@ const connectDB = async () => {
 
 //1] POST to add the movies in database
 
-app.post("/movies", async (req, res) => {
-  const { title, description, image, category, director, year, rating } = req.body;
-
-  const newMovies = new Movie({
-    title,
-    description,
-    image,
-    category,
-    director,
-    year,
-    rating,
-  });
-
-  //saving the movie
-  const saveMovie = await newMovies.save();
-  res.json({
-    success: true,
-    sata: saveMovie,
-    message: "movie save successfully !",
-  });
-});
+app.post("/movies",saveAllMovies);
 
 //To get all the movies
-app.get("/movies", async(req,res)=>
-{
-  const movies = await Movie.find();
-
-  res.json({
-    success:true,
-    data:movies,
-    message:"movies loaded successfully !"
-  })
-})
+app.get("/movies", getAppMovies);
 
 //search by ID api 
-
-app.get("/movies/:id", async(req,res)=>
-{
-  const {id} = req.params;
-  try{
-    const movie = await Movie.findById(id);
-    res.json({
-      success:true,
-      data:movie,
-      message:"pericular movie data is found"
-    })
-  }
-catch(error)
-{
- res.json({
-  success:false,
-  message:error.message
- })
-}
-})
+app.get("/movies/:id",searchById)
 
 
-app.get("/health", (req, res) => {
-  res.json({
-    success: true,
-    message: "server is healthy",
-  });
-});
+app.get("/health",health);
 
 //server runnig
 const PORT = process.env.PORT || 8000;
