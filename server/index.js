@@ -21,8 +21,7 @@ const connectDB = async () => {
 //1] POST to add the movies in database
 
 app.post("/movies", async (req, res) => {
-  const { title, description, image, category, director, year, rating } =
-    req.body;
+  const { title, description, image, category, director, year, rating } = req.body;
 
   const newMovies = new Movie({
     title,
@@ -55,6 +54,27 @@ app.get("/movies", async(req,res)=>
   })
 })
 
+//search by ID api 
+
+app.get("/movies/:id", async(req,res)=>
+{
+  const {id} = req.params;
+  try{
+    const movie = await Movie.findById(id);
+    res.json({
+      success:true,
+      data:movie,
+      message:"pericular movie data is found"
+    })
+  }
+catch(error)
+{
+ res.json({
+  success:false,
+  message:error.message
+ })
+}
+})
 
 
 app.get("/health", (req, res) => {

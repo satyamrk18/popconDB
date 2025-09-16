@@ -1,5 +1,8 @@
 import {model, Schema} from "mongoose"
 
+//schema  = means structure
+//model  = document
+
 const moviesSchema  = new Schema({
     title:{type:String},
     description:{type:String},
@@ -12,3 +15,6 @@ const moviesSchema  = new Schema({
 
 const Movie = model('Movie',moviesSchema)
 export default Movie;
+
+
+
