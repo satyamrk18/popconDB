@@ -3,8 +3,15 @@ import Movie from "./../models/movies.js";
 
 //to save all the data
 const saveAllMovies = async (req, res) => {
-  const { title, description, image, category, director, year, rating,isWorking } =
-    req.body;
+  const {
+    title,
+    description,
+    image,
+    category,
+    director,
+    year,
+    rating,
+  } = req.body;
 
   const newMovies = new Movie({
     title,
@@ -14,7 +21,7 @@ const saveAllMovies = async (req, res) => {
     director,
     year,
     rating,
-    isWorking,
+
   });
 
   //saving the movie
@@ -81,22 +88,57 @@ const searchById = async (req, res) => {
   }
 };
 
+//to update the entire movie details
+
+const updateMovie = async (req, res) => {
+  const { id } = req.params;
+  const {
+    title,
+    description,
+    image,
+    category,
+    director,
+    year,
+    rating,
+  } = req.body;
+
+  await Movie.updateOne(
+    { _id: id },
+    {
+      $set:{ title,
+      description,
+      image,
+      category,
+      director,
+      year,
+      rating,}
+    }
+  );
+
+  const updatedMovie = await Movie.findById(id);
+  return res.status(200).json({
+    success: true,
+    data: updatedMovie,
+    message: "movie update successfuly",
+  });
+};
+
 //update the rating of the movie
-const updateMovieRating = async (req,res)=>{
-const {id} = req.params;
-const {rating} = req.body;
+const updateMovieRating = async (req, res) => {
+  const { id } = req.params;
+  const { rating } = req.body;
 
-await Movie.updateOne({_id:id},{rating:rating}); // update the mocie and update to the database
-//now the new updated data is stored in database
+  await Movie.updateOne({ _id: id }, { rating: rating }); // update the mocie and update to the database
+  //now the new updated data is stored in database
 
-const updatedMovie  = await Movie.findById(id);
+  const updatedMovie = await Movie.findById(id);
 
-return res.status(200).json({
-  success:true,
-  data:updatedMovie,
-  message:"movie update successfuly !"
-})
-}
+  return res.status(200).json({
+    success: true,
+    data: updatedMovie,
+    message: "movie update successfuly !",
+  });
+};
 //server health
 const health = (req, res) => {
   res.json({
@@ -105,4 +147,12 @@ const health = (req, res) => {
   });
 };
 
-export { getAppMovies, searchById, health, saveAllMovies, getSearchMovie,updateMovieRating };
+export {
+  getAppMovies,
+  searchById,
+  health,
+  saveAllMovies,
+  getSearchMovie,
+  updateMovieRating,
+  updateMovie,
+};

@@ -10,6 +10,7 @@ import {
   saveAllMovies,
   getSearchMovie,
   updateMovieRating,
+  updateMovie,
 } from "./controller/Movies.js";
 
 //all configurations
@@ -36,12 +37,16 @@ app.get("/movies", getAppMovies);
 //Search the movie api by it's title or category or description or director
 app.get("/movies/search", getSearchMovie);
 
-//search by ID api
-app.get("/movies/:id", searchById);
+//to update the entire data of the movie
+app.put("/movies/:id/update", updateMovie);
 
 //update the rating
 app.patch("/movies/:id/rating", updateMovieRating);
 
+//search by ID api
+app.get("/movies/:id", searchById);
+
+//heath api
 app.get("/health", health);
 
 //server runnig
