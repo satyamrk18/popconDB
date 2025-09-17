@@ -10,7 +10,7 @@ const moviesSchema  = new Schema({
     category:{type:String},
     director:{type:String},
     year:{type:Number},
-    rating:{type:Number}
+    rating:{type:Number},
 });
 
 const Movie = model('Movie',moviesSchema)

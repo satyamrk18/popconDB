@@ -1,8 +1,9 @@
+import { json } from "express";
 import Movie from "./../models/movies.js";
 
 //to save all the data
 const saveAllMovies = async (req, res) => {
-  const { title, description, image, category, director, year, rating } =
+  const { title, description, image, category, director, year, rating,isWorking } =
     req.body;
 
   const newMovies = new Movie({
@@ -13,13 +14,14 @@ const saveAllMovies = async (req, res) => {
     director,
     year,
     rating,
+    isWorking,
   });
 
   //saving the movie
   const saveMovie = await newMovies.save();
   res.json({
     success: true,
-    sata: saveMovie,
+    data: saveMovie,
     message: "movie save successfully !",
   });
 };
@@ -79,6 +81,23 @@ const searchById = async (req, res) => {
   }
 };
 
+//update the rating of the movie
+const updateMovieRating = async (req,res)=>{
+const {id} = req.params;
+const {rating} = req.body;
+
+await Movie.updateOne({_id:id},{rating:rating}); // update the mocie and update to the database
+//now the new updated data is stored in database
+
+const updatedMovie  = await Movie.findById(id);
+
+return res.status(200).json({
+  success:true,
+  data:updatedMovie,
+  message:"movie update successfuly !"
+})
+}
+//server health
 const health = (req, res) => {
   res.json({
     success: true,
@@ -86,4 +105,4 @@ const health = (req, res) => {
   });
 };
 
-export { getAppMovies, searchById, health, saveAllMovies, getSearchMovie };
+export { getAppMovies, searchById, health, saveAllMovies, getSearchMovie,updateMovieRating };
