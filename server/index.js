@@ -3,7 +3,9 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import {getAppMovies,searchById,health,saveAllMovies} from "./controller/Movies.js"
+import {getAppMovies,searchById,health,saveAllMovies,getSearchMovie} from "./controller/Movies.js"
+import Movie from "./models/movies.js";
+import { CommandSucceededEvent } from "mongodb";
 //all configurations
 dotenv.config();
 const app = express();
@@ -24,6 +26,9 @@ app.post("/movies",saveAllMovies);
 
 //To get all the movies
 app.get("/movies", getAppMovies);
+
+//Search the movie api by it's title or category or description or director
+app.get("/movies/search",getSearchMovie)
 
 //search by ID api 
 app.get("/movies/:id",searchById)
