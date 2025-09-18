@@ -11,6 +11,7 @@ import {
   getSearchMovie,
   updateMovieRating,
   updateMovie,
+  deletMovie,
 } from "./controller/Movies.js";
 
 //all configurations
@@ -45,6 +46,9 @@ app.patch("/movies/:id/rating", updateMovieRating);
 
 //search by ID api
 app.get("/movies/:id", searchById);
+
+//delet the movie
+app.delete("/movies/:id",deletMovie);
 
 //heath api
 app.get("/health", health);

@@ -1,5 +1,6 @@
 import { json } from "express";
 import Movie from "./../models/movies.js";
+import { MongoBulkWriteError } from "mongodb";
 
 //to save all the data
 const saveAllMovies = async (req, res) => {
@@ -12,6 +13,18 @@ const saveAllMovies = async (req, res) => {
     year,
     rating,
   } = req.body;
+
+if(!title || !description || !image || !category || !director || !year || !rating)
+{
+
+  return res.json(
+    {
+      success:false,
+      data:[],
+      message:"all fild must be comple ."
+    }
+  )
+}
 
   const newMovies = new Movie({
     title,
@@ -128,6 +141,17 @@ const updateMovieRating = async (req, res) => {
   const { id } = req.params;
   const { rating } = req.body;
 
+  if(rating <0 || rating > 5)
+  {
+    return res.json(
+      {
+        success:false,
+        data:[],
+        message:"rating must be between 0 to 5 only"
+      }
+    )
+  }
+
   await Movie.updateOne({ _id: id }, { rating: rating }); // update the mocie and update to the database
   //now the new updated data is stored in database
 
@@ -139,6 +163,41 @@ const updateMovieRating = async (req, res) => {
     message: "movie update successfuly !",
   });
 };
+
+//delete movie
+const deletMovie = async(req,res)=>
+{
+  const {id} = req.params;
+
+  const movie = await Movie.findById(id);
+ try{
+   if(!movie)
+  {
+    res.status(400).json({
+      success:false,
+      data:[],
+      message:"movie not found"
+    })
+  }
+  else{
+  await  Movie.deleteOne({_id : id});
+  res.status(200).json(
+    {
+      success:true,
+      message:"movie deleted successfully !"
+    }
+  )
+  }
+ }
+ catch(error)
+ {
+  res.json({
+    success:false,
+    data:[],
+    message:"movie not found"
+  })
+ }
+}
 //server health
 const health = (req, res) => {
   res.json({
@@ -155,4 +214,5 @@ export {
   getSearchMovie,
   updateMovieRating,
   updateMovie,
+  deletMovie,
 };
