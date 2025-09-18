@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useInsertionEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, RouterProvider } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -19,10 +20,20 @@ const Home = () => {
   }, [search]);
 
   const seachMovie = async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_URL}/movies/search?q=${search}`
+    try {
+      toast.loading("searching...", { id: "searching" });
+      const response = await axios.get(
+        `${import.meta.env.VITE_URL}/movies/search?q=${search}`
+      );
+      setMovies(response.data.data);
+      toast.dismiss("searching");
+    } catch (error) {
+       toast.dismiss("searching");
+    toast.error(
+      error.response?.data?.message
     );
-    setMovies(response.data.data);
+    setMovies([]);
+    }
   };
   return (
     <div className="overflow-x-auto scrollbar-hide">
@@ -48,6 +59,7 @@ const Home = () => {
           );
         })}
       </div>
+      <Toaster />
     </div>
   );
 };
