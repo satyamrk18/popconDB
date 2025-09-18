@@ -1,6 +1,6 @@
 import { json } from "express";
 import Movie from "./../models/movies.js";
-import { MongoBulkWriteError } from "mongodb";
+
 
 //to save all the data
 const saveAllMovies = async (req, res) => {
