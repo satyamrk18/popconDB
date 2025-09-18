@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useInsertionEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import MovieCard from "./../components/MovieCard.jsx"
+import MovieCard from "./../components/MovieCard.jsx";
 const Home = () => {
   const [movies, setMovies] = useState([]);
+  const [search, setsearch] = useState("");
   const loadAllMovies = async () => {
     const response = await axios.get(`${import.meta.env.VITE_URL}/movies`);
     console.log(response.data.data);
@@ -12,13 +13,30 @@ const Home = () => {
   useEffect(() => {
     loadAllMovies();
   }, []);
+  //search movie
+  useEffect(() => {
+    seachMovie();
+  }, [search]);
 
+  const seachMovie = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_URL}/movies/search?q=${search}`
+    );
+    setMovies(response.data.data);
+  };
   return (
     <div className="overflow-x-auto scrollbar-hide">
-    <div className="flex justify-evenly g-6 p-6 flex-wrap">
-          {movies.map((movieOBJ, index) => {
-        const { _id, title, image, category, year, rating } = movieOBJ;
-        return (
+      <input
+        type="text"
+        placeholder="enter a movie name"
+        onChange={(e) => {
+          setsearch(e.target.value);
+        }}
+      />
+      <div className="flex justify-evenly g-6 p-6 flex-wrap">
+        {movies.map((movieOBJ, index) => {
+          const { _id, title, image, category, year, rating } = movieOBJ;
+          return (
             <MovieCard
               key={_id}
               title={title}
@@ -27,9 +45,9 @@ const Home = () => {
               year={year}
               rating={rating}
             />
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
