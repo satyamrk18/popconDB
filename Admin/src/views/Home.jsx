@@ -28,23 +28,29 @@ const Home = () => {
       );
       setMovies(response.data.data);
       toast.dismiss("searching");
+      toast.dismiss("error")
       setError("");
+
     } catch (error) {
       toast.dismiss("searching");
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message,{id:"error"});
       setMovies([]);
       setError(error.response?.data?.message);
     }
   };
   return (
-    <div className="overflow-x-auto scrollbar-hide">
+    <div className="overflow-x-auto scrollbar-hide w-full">
+     <div className="flex flex-col items-center">
+       <p className="text-2xl mt-10">Admin Log In</p>
       <input
         type="text"
         placeholder="enter a movie name"
+        className="border-2 border-solid rounded-lg p-2 m-10"
         onChange={(e) => {
           setsearch(e.target.value);
         }}
       />
+     </div>
       {/* if movie not found */}
       {error ? <div>{error}</div> : null}
     
