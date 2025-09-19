@@ -1,8 +1,8 @@
 import axios from "axios";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
-
+import { Link } from "react-router";
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -13,7 +13,7 @@ const Home = () => {
     try {
       const response = await axios.get(`${import.meta.env.VITE_URL}/movies`);
       setMovies(response.data.data);
-      console.log(response.data.message)
+      console.log(response.data.message);
       setError("");
     } catch (error) {
       setError(error.response?.data?.message || "Failed to load movies");
@@ -43,10 +43,9 @@ const Home = () => {
       setMovies([]);
     }
   };
-useEffect(()=>
-{
-  searchMovie()
-},[search])
+  useEffect(() => {
+    searchMovie();
+  }, [search]);
   // Initial load
   useEffect(() => {
     loadAllMovies();
@@ -73,12 +72,18 @@ useEffect(()=>
         {movies.map((movieOBJ) => {
           const { _id, title, image, category, year, rating } = movieOBJ;
           return (
-            <MovieCard 
-            key={_id}
-            image={image}
-            title={title}
-            rating={rating}
-            />
+            <div key={_id}>
+              <Link to={`/movie/${_id}`}>
+                <MovieCard
+                  key={_id}
+                  image={image}
+                  title={title}
+                  rating={rating}
+                  year={year}
+                  category={category}
+                />
+              </Link>
+            </div>
           );
         })}
       </div>
