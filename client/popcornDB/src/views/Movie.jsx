@@ -63,7 +63,7 @@ const Movie = () => {
             <p>
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
-            <p>
+            <p>Rating: {movie.rating} {" "}
               {Array.from({ length: movie.rating }).map((_, index) => (
             <span key={index} className="text-amber-400 text-lg">
               ★
