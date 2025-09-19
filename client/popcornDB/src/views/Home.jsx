@@ -1,72 +1,91 @@
 import axios from "axios";
-import { useEffect, useInsertionEffect, useState } from "react";
-import { useParams, Link, RouterProvider } from "react-router-dom";
+import { use, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
+
 const Home = () => {
   const [movies, setMovies] = useState([]);
-  const [search, setsearch] = useState("");
   const [error, setError] = useState("");
-  const loadAllMovies = async () => {
-    const response = await axios.get(`${import.meta.env.VITE_URL}/movies`);
-    console.log(response.data.data);
-    setMovies(response.data.data);
-  };
-  useEffect(() => {
-    loadAllMovies();
-  }, []);
-  //search movie
-  useEffect(() => {
-    seachMovie();
-  }, [search]);
+  const [search, setSearch] = useState("");
 
-  const seachMovie = async () => {
+  // Load all movies
+  const loadAllMovies = async () => {
     try {
-      toast.loading("searching...", { id: "searching" });
+      const response = await axios.get(`${import.meta.env.VITE_URL}/movies`);
+      setMovies(response.data.data);
+      console.log(response.data.message)
+      setError("");
+    } catch (error) {
+      setError(error.response?.data?.message || "Failed to load movies");
+      setMovies([]);
+    }
+  };
+
+  // Search movies
+  const searchMovie = async () => {
+    if (!search.trim()) {
+      loadAllMovies();
+      return;
+    }
+    try {
+      toast.loading("Searching...", { id: "searching" });
       const response = await axios.get(
         `${import.meta.env.VITE_URL}/movies/search?q=${search}`
       );
       setMovies(response.data.data);
-      toast.dismiss("searching");
       setError("");
+      toast.dismiss("searching");
     } catch (error) {
       toast.dismiss("searching");
-      toast.error(error.response?.data?.message);
+      const msg = error.response?.data?.message || "Search failed";
+      toast.error(msg);
+      setError(msg);
       setMovies([]);
-      setError(error.response?.data?.message);
     }
   };
+useEffect(()=>
+{
+  searchMovie()
+},[search])
+  // Initial load
+  useEffect(() => {
+    loadAllMovies();
+  }, []);
+
   return (
     <div className="overflow-x-auto scrollbar-hide">
-      <input
-        type="text"
-        placeholder="enter a movie name"
-        onChange={(e) => {
-          setsearch(e.target.value);
-        }}
-      />
-      {/* if movie not found */}
-      {error ? <div>{error}</div> : null}
-    
-    {/* rendering movies */}
-      
-      <div className="flex justify-evenly g-6 p-6 flex-wrap">
-        {movies.map((movieOBJ, index) => {
+      {/* Search box */}
+      <div className="flex justify-center mt-4">
+        <input
+          type="text"
+          placeholder="Search movies..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border rounded-lg px-4 py-2 w-1/2"
+        />
+      </div>
+
+      {/* Error message */}
+      {error && <div className="text-center text-red-500 mt-4">{error}</div>}
+
+      {/* Render movies */}
+      <div className="flex justify-evenly gap-6 p-6 flex-wrap">
+        {movies.map((movieOBJ) => {
           const { _id, title, image, category, year, rating } = movieOBJ;
           return (
-            <MovieCard
-              key={_id}
-              title={title}
-              image={image}
-              category={category}
-              year={year}
-              rating={rating}
+            <MovieCard 
+            key={_id}
+            image={image}
+            title={title}
+            rating={rating}
             />
           );
         })}
       </div>
+
       <Toaster />
     </div>
   );
 };
+
 export default Home;
