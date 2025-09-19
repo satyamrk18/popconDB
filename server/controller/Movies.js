@@ -18,7 +18,7 @@ const saveAllMovies = async (req, res) => {
     return res.json({
       success: false,
       data: [],
-      message: "all fild must be comple .",
+      message: "all fild must be complete .",
     });
   }
 
