@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Trash2, FilePenLine } from "lucide-react";
@@ -6,6 +6,7 @@ const Movie = () => {
   const [movie, setMovie] = useState();
   //get the movie id
   const { id } = useParams();
+  const navigate = useNavigate();
   console.log(id);
   //get the perticular movie
   const loadAllMovies = async () => {
@@ -22,6 +23,25 @@ const Movie = () => {
   useEffect(() => {
     loadAllMovies();
   }, [id]);
+
+  //delete Movie
+  const deleteMovie = async (id)=>{
+        if(confirm("do you want to delete movie") == true)
+        {
+          try{
+            const response = await axios.delete(`${import.meta.env.VITE_URL}/movies/${id}`);
+          alert(response.data.message);
+          navigate("/");
+          }
+          catch(error)
+          {
+            console.log(error.response.data.message || "something went wrong while deleting !")
+          }
+        }
+        else{
+          console.log("something went wrong !")
+        }
+  }
 
   if (!movie) {
     return <div>loading...!</div>;
@@ -80,7 +100,7 @@ const Movie = () => {
           </div>
           {/* edit and delete button */}
           <div className="flex items-center justify-evenly mt-10">
-            <button className="border-2-transparant rounded-xl bg-red-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
+            <button onClick={()=>{deleteMovie(id)}} className="border-2-transparant rounded-xl bg-red-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
               <Trash2 />
             </button>
             <Link className="border-2-transparant rounded-xl bg-green-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
