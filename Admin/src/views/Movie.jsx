@@ -1,6 +1,7 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Trash2, FilePenLine } from "lucide-react";
 const Movie = () => {
   const [movie, setMovie] = useState();
   //get the movie id
@@ -63,18 +64,28 @@ const Movie = () => {
             <p>
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
-            <p>Rating: {movie.rating} {" "}
+            <p>
+              Rating: {movie.rating}{" "}
               {Array.from({ length: movie.rating }).map((_, index) => (
-            <span key={index} className="text-amber-400 text-lg">
-              ★
-            </span>
-          ))}
-          {Array.from({ length: 5 - movie.rating }).map((_, index) => (
-            <span key={index} className="text-gray-500 text-lg">
-              ★
-            </span>
-          ))}
+                <span key={index} className="text-amber-400 text-lg">
+                  ★
+                </span>
+              ))}
+              {Array.from({ length: 5 - movie.rating }).map((_, index) => (
+                <span key={index} className="text-gray-500 text-lg">
+                  ★
+                </span>
+              ))}
             </p>
+          </div>
+          {/* edit and delete button */}
+          <div className="flex items-center justify-evenly mt-10">
+            <button className="border-2-transparant rounded-xl bg-red-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
+              <Trash2 />
+            </button>
+            <Link className="border-2-transparant rounded-xl bg-green-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
+              <FilePenLine />
+            </Link>
           </div>
         </div>
       </div>
