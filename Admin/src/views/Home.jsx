@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
 import { Link } from "react-router";
+import Navbar from "./../components/Navbar.jsx"
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -54,6 +55,7 @@ const Home = () => {
   return (
     <div className="overflow-x-auto scrollbar-hide">
       <p className="text-center text-4xl font-bold m-10">Admin Log In</p>
+      <Navbar />
       {/* Search box */}
       <div className="flex justify-center mt-4">
         <input

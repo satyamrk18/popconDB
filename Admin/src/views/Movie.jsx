@@ -103,7 +103,7 @@ const Movie = () => {
             <button onClick={()=>{deleteMovie(id)}} className="border-2-transparant rounded-xl bg-red-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
               <Trash2 />
             </button>
-            <Link className="border-2-transparant rounded-xl bg-green-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
+            <Link to={`/movies/${id}/update`} className="border-2-transparant rounded-xl bg-green-500 cursor-pointer text-white p-2 flex items-center justify-center w-[50px] text-center hover:text-black">
               <FilePenLine />
             </Link>
           </div>
