@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
 import { Link } from "react-router";
+import img404 from "./../ascets/images/img404.png"
 import Navbar from "./../components/Navbar.jsx"
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -68,7 +69,7 @@ const Home = () => {
       </div>
 
       {/* Error message */}
-      {error && <div className="text-center text-red-500 mt-4">{error}</div>}
+      {error && <div className="flex items-center justify-center"><img src={img404} alt="movvie not found image"/></div>}
 
       {/* Render movies */}
       <div className="flex justify-evenly gap-6 p-6 flex-wrap">
