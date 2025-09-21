@@ -9,7 +9,7 @@ const Movie = () => {
   const navigate = useNavigate();
   console.log(id);
   //get the perticular movie
-  const loadAllMovies = async () => {
+  const loadperticularMovie = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_URL}/movies/${id}`
@@ -21,7 +21,7 @@ const Movie = () => {
   };
   //load the movie
   useEffect(() => {
-    loadAllMovies();
+    loadperticularMovie();
   }, [id]);
 
   //delete Movie

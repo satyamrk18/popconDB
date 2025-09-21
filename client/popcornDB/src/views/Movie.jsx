@@ -7,8 +7,9 @@ const Movie = () => {
   const { id } = useParams();
   console.log(id);
   //get the perticular movie
-  const loadAllMovies = async () => {
+  const loadperticularMovie = async () => {
     try {
+      //to load the perticular movie
       const response = await axios.get(
         `${import.meta.env.VITE_URL}/movies/${id}`
       );
@@ -17,9 +18,19 @@ const Movie = () => {
       console.log("something went wrong");
     }
   };
+  //increment the view count
+  const viewCount = async () => {
+    // 2️Increment views only if not already counted
+    const viewed = await sessionStorage.getItem(`viewed_${id}`);
+    if (!viewed) {
+      axios.patch(`${import.meta.env.VITE_URL}/movies/${id}/views`);
+      sessionStorage.setItem(`viewed_${id}`, "true");
+    }
+  };
   //load the movie
   useEffect(() => {
-    loadAllMovies();
+    loadperticularMovie();
+    viewCount();
   }, [id]);
 
   if (!movie) {
@@ -63,17 +74,19 @@ const Movie = () => {
             <p>
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
-            <p>Rating: {movie.rating} {" "}
+            <p>Views:{movie.views}</p>
+            <p>
+              Rating: {movie.rating}{" "}
               {Array.from({ length: movie.rating }).map((_, index) => (
-            <span key={index} className="text-amber-400 text-lg">
-              ★
-            </span>
-          ))}
-          {Array.from({ length: 5 - movie.rating }).map((_, index) => (
-            <span key={index} className="text-gray-500 text-lg">
-              ★
-            </span>
-          ))}
+                <span key={index} className="text-amber-400 text-lg">
+                  ★
+                </span>
+              ))}
+              {Array.from({ length: 5 - movie.rating }).map((_, index) => (
+                <span key={index} className="text-gray-500 text-lg">
+                  ★
+                </span>
+              ))}
             </p>
           </div>
         </div>
