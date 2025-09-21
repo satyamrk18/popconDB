@@ -117,7 +117,29 @@ const updateMovie = async (req, res) => {
     message: "movie update successfuly",
   });
 };
-
+//update movie views
+const updateViews = async (req,res)=>
+{
+const {id} = req.params;
+try{
+   await Movie.updateOne({_id:id},{$inc:{views:1}})
+   res.status(200).json(
+    {
+      success:true,
+      message:"views update successfully !"
+    }
+   )
+}
+catch(error)
+{
+   res.status(400).json(
+    {
+      success:false,
+      message:"there is a problem while updating the views"
+    }
+   )
+}
+}
 //update the rating of the movie
 const updateMovieRating = async (req, res) => {
   const { id } = req.params;
@@ -184,6 +206,7 @@ export {
   health,
   saveAllMovies,
   getSearchMovie,
+  updateViews,
   updateMovieRating,
   updateMovie,
   deletMovie,

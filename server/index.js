@@ -9,6 +9,7 @@ import {
   health,
   saveAllMovies,
   getSearchMovie,
+  updateViews,
   updateMovieRating,
   updateMovie,
   deletMovie,
@@ -41,6 +42,8 @@ app.get("/movies/search", getSearchMovie);
 //to update the entire data of the movie
 app.put("/movies/:id/update", updateMovie);
 
+//update the views of the movie
+app.patch("/movies/:id/views",updateViews);
 //update the rating
 app.patch("/movies/:id/rating", updateMovieRating);
 

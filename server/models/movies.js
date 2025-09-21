@@ -5,13 +5,14 @@ import { model, Schema } from "mongoose";
 
 const moviesSchema = new Schema(
   {
-    title: { type: String, require: true, unique: true },
-    description: { type: String, require: true },
-    image: { type: [String], require: true },
-    category: { type: String, require: true },
-    director: { type: String, require: true },
-    year: { type: Number, require: true },
-    rating: { type: Number, require: true },
+    title: { type: String, required: true, unique: true },
+    description: { type: String, required: true },
+    image: { type: [String], required: true },
+    category: { type: String, required: true },
+    director: { type: String, required: true },
+    year: { type: Number, required: true },
+    rating: { type: Number, required: true },
+    views: {type:Number, default:0},
   },
   { timestamps: true }
 ); //timestamps automatically handle the creation date, updation date of the data or document
