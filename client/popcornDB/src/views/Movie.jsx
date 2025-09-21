@@ -23,7 +23,7 @@ const Movie = () => {
     // 2️Increment views only if not already counted
     const viewed = await sessionStorage.getItem(`viewed_${id}`);
     if (!viewed) {
-      axios.patch(`${import.meta.env.VITE_URL}/movies/${id}/views`);
+     await axios.patch(`${import.meta.env.VITE_URL}/movies/${id}/views`);
       sessionStorage.setItem(`viewed_${id}`, "true");
     }
   };

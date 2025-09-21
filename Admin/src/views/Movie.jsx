@@ -19,9 +19,19 @@ const Movie = () => {
       console.log("something went wrong");
     }
   };
+  //increment the view count
+  const viewCount = async () => {
+    // 2️Increment views only if not already counted
+    const viewed =  sessionStorage.getItem(`viewed_${id}`);
+    if (!viewed) {
+    await  axios.patch(`${import.meta.env.VITE_URL}/movies/${id}/views`);
+      sessionStorage.setItem(`viewed_${id}`, "true");
+    }
+  };
   //load the movie
   useEffect(() => {
     loadperticularMovie();
+    viewCount();
   }, [id]);
 
   //delete Movie
@@ -84,6 +94,7 @@ const Movie = () => {
             <p>
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
+            <p>Views: {movie.views}</p>
             <p>
               Rating: {movie.rating}{" "}
               {Array.from({ length: movie.rating }).map((_, index) => (
