@@ -54,7 +54,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto scrollbar-hide">
+    <div className="overflow-x-auto scrollbar-hide bg-amber-200">
       {/* Search box */}
       <div className="flex justify-center mt-4">
         <input

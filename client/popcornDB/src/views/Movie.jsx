@@ -1,8 +1,12 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard";
 const Movie = () => {
   const [movie, setMovie] = useState();
+  //to set other movies
+  const [otherMovies, setOtherMovies] = useState([]);
   //get the movie id
   const { id } = useParams();
   console.log(id);
@@ -18,12 +22,13 @@ const Movie = () => {
       console.log("something went wrong");
     }
   };
+
   //increment the view count
   const viewCount = async () => {
     // 2️Increment views only if not already counted
     const viewed = await sessionStorage.getItem(`viewed_${id}`);
     if (!viewed) {
-     await axios.patch(`${import.meta.env.VITE_URL}/movies/${id}/views`);
+      await axios.patch(`${import.meta.env.VITE_URL}/movies/${id}/views`);
       sessionStorage.setItem(`viewed_${id}`, "true");
     }
   };
@@ -32,12 +37,22 @@ const Movie = () => {
     loadperticularMovie();
     viewCount();
   }, [id]);
+ //resnder the other movies
+const loadmovie = async ()=>
+{
+const response = await axios.get(`${import.meta.env.VITE_URL}/movies`);
+setOtherMovies(response.data.data);
+console.log(response.data.data)
+}
+useEffect(()=>{loadmovie()},[])
 
+ //loading the movies
   if (!movie) {
-    return <div>loading...!</div>;
+  return toast.loading("loading...",{id:"loading"})
   }
   return (
-    <div className="w-full min-h-screen bg-gray-100">
+    <div className="w-full bg-amber-300 flex items-center justify-center flex-col">
+      {toast.dismiss("loading")}
       {/* Back to Home */}
       <Link
         to="/"
@@ -47,7 +62,7 @@ const Movie = () => {
       </Link>
 
       {/* Movie Card */}
-      <div className="max-w-3xl mx-auto mt-24 border p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-6 bg-white">
+      <div className="max-w-3xl mx-auto border p-6 mt-10 rounded-2xl shadow-xl flex flex-col md:flex-row gap-6 bg-white">
         {/* Movie Poster */}
         <img
           src={movie.image[0]}
@@ -91,6 +106,27 @@ const Movie = () => {
           </div>
         </div>
       </div>
+       {/* Render movies */}
+      <div className="flex justify-evenly gap-6 p-6 flex-wrap">
+        {otherMovies.map((movieOBJ) => {
+          const { _id, title, image, category, year, rating } = movieOBJ;
+          return (
+            <div key={_id}>
+              <Link to={`/movie/${_id}`}>
+                <MovieCard
+                  key={_id}
+                  image={image}
+                  title={title}
+                  rating={rating}
+                  year={year}
+                  category={category}
+                />
+              </Link>
+            </div>
+          );
+        })}
+      </div>
+      <Toaster />
     </div>
   );
 };
