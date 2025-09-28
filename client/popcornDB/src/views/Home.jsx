@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
 import { Link } from "react-router";
-import img404 from "./../ascets/images/img404.png"
+import img404 from "./../ascets/images/img404.png";
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -39,10 +39,9 @@ const Home = () => {
     } catch (error) {
       toast.dismiss("searching");
       const msg = error.response?.data?.message || "Search failed";
-      toast.error(msg,{duration:"300",id:"notFoundMSg"});
+      toast.error(msg, { duration: "300", id: "notFoundMSg" });
       setError(msg);
       setMovies([]);
-
     }
   };
   useEffect(() => {
@@ -67,7 +66,35 @@ const Home = () => {
       </div>
 
       {/* Error message */}
-      {error && <div className="flex items-center justify-center"><img src={img404} alt="movie not found"/></div>}
+      {error && (
+        <div className="flex items-center justify-center">
+          <img src={img404} alt="movie not found" />
+        </div>
+      )}
+
+      {/* category based rendering      */}
+      <h1 className="text-3xl font-black m-8 ml-20 ">Superhero</h1>
+     <div className="flex flex-row justify-evenly items-center overflow-x-scroll scrollbar-hide gap-10 ml-10 mr-10">
+        {movies.map((movieOBJ) => {
+          const { _id, title, image, category, year, rating } = movieOBJ;
+          if (category == "Superhero") {
+            return (
+              <div key={_id}>
+                <Link to={`/movie/${_id}`}>
+                  <MovieCard
+                    key={_id}
+                    image={image}
+                    title={title}
+                    rating={rating}
+                    year={year}
+                    category={category}
+                  />
+                </Link>
+              </div>
+            );
+          }
+        })}
+      </div>
 
       {/* Render movies */}
       <div className="flex justify-evenly gap-6 p-6 flex-wrap">

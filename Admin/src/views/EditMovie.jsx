@@ -148,6 +148,7 @@ const EditMovie = () => {
             <option value="Family">Family</option>
             <option value="Kids">Kids</option>
             <option value="Sports">Sports</option>
+             <option value="Superhero">Superhero</option>
             <option value="Experimental">Experimental</option>
           </select>
 

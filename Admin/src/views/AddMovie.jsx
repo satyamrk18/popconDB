@@ -12,7 +12,7 @@ const AddMovie = () => {
     year: "",
     rating: 0,
   });
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const saveMovie = async () => {
     try {
       const response = await axios.post(
@@ -29,7 +29,7 @@ const navigate = useNavigate()
         year: "",
         rating: 0,
       });
-      navigate("/")
+      navigate("/");
     } catch (error) {
       alert(error.response.data.message);
     }
@@ -94,6 +94,7 @@ const navigate = useNavigate()
             <option value="Family">Family</option>
             <option value="Kids">Kids</option>
             <option value="Sports">Sports</option>
+            <option value="Superhero">Superhero</option>
             <option value="Experimental">Experimental</option>
           </select>
 
