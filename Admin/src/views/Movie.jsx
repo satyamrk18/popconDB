@@ -1,7 +1,7 @@
 import { Link, useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Trash2, FilePenLine } from "lucide-react";
+import { Trash2, FilePenLine, Eye } from "lucide-react";
 const Movie = () => {
   const [movie, setMovie] = useState();
   //get the movie id
@@ -94,7 +94,7 @@ const Movie = () => {
             <p>
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
-            <p>Views: {movie.views}</p>
+            <p className="flex items-center gap-2">Views: {movie.views}<Eye size={15} /></p>
             <p>
               Rating: {movie.rating}{" "}
               {Array.from({ length: movie.rating }).map((_, index) => (

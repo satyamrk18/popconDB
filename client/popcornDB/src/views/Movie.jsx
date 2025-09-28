@@ -1,8 +1,9 @@
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
+import { Eye } from 'lucide-react';
 const Movie = () => {
   const [movie, setMovie] = useState();
   //to set other movies
@@ -89,7 +90,7 @@ useEffect(()=>{loadmovie()},[])
             <p>
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
-            <p>Views:{movie.views}</p>
+          <p className="flex items-center gap-2">Views: {movie.views}<Eye size={15} /></p>
             <p>
               Rating: {movie.rating}{" "}
               {Array.from({ length: movie.rating }).map((_, index) => (
