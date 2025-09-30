@@ -58,13 +58,13 @@ const Home = () => {
       {/* Search box and navbar */}
       <div className="flex items-center justify-evenly">
         <Navbar />
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 w-[20%]">
         <input
           type="text"
           placeholder="Search movies..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border rounded-lg px-4 py-2 w-30]"
+          className="border rounded-lg px-4 py-2 w-[100%]"
         />
       </div>
       </div>
