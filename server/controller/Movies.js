@@ -3,7 +3,7 @@ import Movie from "./../models/movies.js";
 
 //to save all the data
 const saveAllMovies = async (req, res) => {
-  const { title, description, image, category, director, year, rating } =
+  const { title, description, image, category, director, year, rating,type } =
     req.body;
 
   if (
@@ -13,7 +13,7 @@ const saveAllMovies = async (req, res) => {
     !category ||
     !director ||
     !year ||
-    !rating
+    !rating || !type
   ) {
     return res.json({
       success: false,
@@ -30,6 +30,7 @@ const saveAllMovies = async (req, res) => {
     director,
     year,
     rating,
+    type,
   });
 
   //saving the movie
@@ -61,6 +62,7 @@ const getSearchMovie = async (req, res) => {
       { description: { $regex: q, $options: "i" } },
       { category: { $regex: q, $options: "i" } },
       { director: { $regex: q, $options: "i" } },
+      {type: {$regex :q, $options:"i"}},
     ],
   });
   if (movies.length === 0) {
@@ -100,13 +102,13 @@ const searchById = async (req, res) => {
 
 const updateMovie = async (req, res) => {
   const { id } = req.params;
-  const { title, description, image, category, director, year, rating } =
+  const { title, description, image, category, director, year, rating,type } =
     req.body;
 
   await Movie.updateOne(
     { _id: id },
     {
-      $set: { title, description, image, category, director, year, rating },
+      $set: { title, description, image, category, director, year, rating,type },
     }
   );
 

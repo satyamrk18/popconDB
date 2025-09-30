@@ -10,6 +10,7 @@ const EditMovie = () => {
     director: "",
     year: 0,
     rating: 0,
+    type:[""],
   });
   const { id } = useParams();
   const navigate = useNavigate();
@@ -182,6 +183,32 @@ const EditMovie = () => {
               setMovie({ ...movie, year: e.target.value });
             }}
           />
+
+          {/* checkbox for type */}
+<div className="flex flex-wrap gap-10 items-center">
+  {["Movie", "Web series", "Live shows", "Hollywood", "Bollywood", "Marathi", "South"].map((item) => (
+    <label key={item}>
+      <input
+        type="checkbox"
+        value={item}
+        checked={movie.type.includes(item)}
+        onChange={(e) => {
+          if (e.target.checked) {
+            // Add value to array
+            setMovie({ ...movie, type: [...movie.type, item] });
+          } else {
+            // Remove value from array
+            setMovie({
+              ...movie,
+              type: movie.type.filter((val) => val !== item),
+            });
+          }
+        }}
+      />
+      {item}
+    </label>
+  ))}
+</div>
           <div className="flex flex-col">
             <input
               type="range"

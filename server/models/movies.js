@@ -13,6 +13,7 @@ const moviesSchema = new Schema(
     year: { type: Number, required: true },
     rating: { type: Number, required: true },
     views: {type:Number, default:0},
+    type:{type:[String],default:"Movie"}
   },
   { timestamps: true }
 ); //timestamps automatically handle the creation date, updation date of the data or document

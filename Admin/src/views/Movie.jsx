@@ -95,6 +95,7 @@ const Movie = () => {
               <span className="font-semibold">Year:</span> {movie.year}
             </p>
             <p className="flex items-center gap-2">Views: {movie.views}<Eye size={15} /></p>
+            <p>Type : {movie.type.join(",  ")}</p>
             <p>
               Rating: {movie.rating}{" "}
               {Array.from({ length: movie.rating }).map((_, index) => (

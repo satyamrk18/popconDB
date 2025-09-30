@@ -11,6 +11,7 @@ const AddMovie = () => {
     director: "",
     year: "",
     rating: 0,
+    type:[""],
   });
   const navigate = useNavigate();
   const saveMovie = async () => {
@@ -28,6 +29,7 @@ const AddMovie = () => {
         director: "",
         year: "",
         rating: 0,
+        type:[""],
       });
       navigate("/");
     } catch (error) {
@@ -128,6 +130,34 @@ const AddMovie = () => {
               setMovies({ ...movies, year: e.target.value });
             }}
           />
+
+{/* checkbox for type */}
+<div className="flex flex-wrap gap-10 items-center">
+  {["Movie", "Web series", "Live shows", "Hollywood", "Bollywood", "Marathi", "South"].map((item) => (
+    <label key={item}>
+      <input
+        type="checkbox"
+        value={item}
+        checked={movies.type.includes(item)}
+        onChange={(e) => {
+          if (e.target.checked) {
+            // Add value to array
+            setMovies({ ...movies, type: [...movies.type, item] });
+          } else {
+            // Remove value from array
+            setMovies({
+              ...movies,
+              type: movies.type.filter((val) => val !== item),
+            });
+          }
+        }}
+      />
+      {item}
+    </label>
+  ))}
+</div>
+
+          {/* rating range */}
           <div className="flex flex-col">
             <input
               type="range"
