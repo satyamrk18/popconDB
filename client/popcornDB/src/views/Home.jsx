@@ -56,9 +56,9 @@ const Home = () => {
   return (
     <div className="overflow-x-auto h-screen scrollbar-hide bg-amber-200">
       {/* Search box and navbar */}
-      <div className="flex items-center justify-evenly">
+      <div className="flex items-center justify-evenly max-[800px]:flex-col-reverse max-[800px]:gap-5">
         <Navbar />
-      <div className="flex justify-center mt-4 w-[20%]">
+      <div className="flex justify-center mt-4 w-[20%] max-[800px]:w-[80%]">
         <input
           type="text"
           placeholder="Search movies..."
