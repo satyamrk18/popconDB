@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import MovieCard from "./../components/MovieCard.jsx";
 import { Link } from "react-router";
 import img404 from "./../ascets/images/img404.png";
+import Navbar from "../components/Navbar.jsx";
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
@@ -54,15 +55,18 @@ const Home = () => {
 
   return (
     <div className="overflow-x-auto h-screen scrollbar-hide bg-amber-200">
-      {/* Search box */}
+      {/* Search box and navbar */}
+      <div className="flex items-center justify-evenly">
+        <Navbar />
       <div className="flex justify-center mt-4">
         <input
           type="text"
           placeholder="Search movies..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="border rounded-lg px-4 py-2 w-1/2"
+          className="border rounded-lg px-4 py-2 w-30]"
         />
+      </div>
       </div>
 
       {/* Error message */}
@@ -73,7 +77,8 @@ const Home = () => {
       )}
 
       {/* category based rendering      */}
-      <h1 className="text-3xl font-black m-8 ml-20 ">Superhero</h1>
+   {
+    search ? "" :  <div>  <h1 className="text-3xl font-black m-8 ml-20 ">Superhero</h1>
      <div className="flex flex-row justify-evenly items-center overflow-x-scroll scrollbar-hide gap-10 ml-10 mr-10">
         {movies.map((movieOBJ) => {
           const { _id, title, image, category, year, rating } = movieOBJ;
@@ -95,6 +100,8 @@ const Home = () => {
           }
         })}
       </div>
+      </div>
+   }
 
       {/* Render movies */}
       <div className="flex justify-evenly gap-6 p-6 flex-wrap">
